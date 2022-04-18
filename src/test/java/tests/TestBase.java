@@ -1,5 +1,7 @@
 package tests;
 
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -7,12 +9,15 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
+import utilities.Report;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
@@ -25,11 +30,15 @@ public class TestBase {
     protected AndroidDriver<MobileElement> driver;
     protected AppiumDriverLocalService service;
 
+    public Report report;
+
     @BeforeSuite
     public void startAppiumServer()
     {
+        report = new Report();
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
+        report.setUpReport();
     }
 
 
@@ -58,6 +67,18 @@ public class TestBase {
 
     }
 
+    @BeforeMethod
+    public void LoggingTest(Method method)
+    {
+        report.LogTest(method);
+    }
+
+    @AfterMethod
+    public void SaveTestResults(ITestResult result)
+    {
+        report.SaveResults(result, driver);
+    }
+
     @AfterClass
     public void stopDriver()
     {
@@ -68,5 +89,6 @@ public class TestBase {
     public void stopAppiumServer()
     {
         service.stop();
+        report.FinishReport();
     }
 }
