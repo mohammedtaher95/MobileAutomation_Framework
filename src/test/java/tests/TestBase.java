@@ -37,10 +37,11 @@ public class TestBase {
     public void startAppiumServer()
     {
         report = new Report();
-        service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
-                .usingPort(4723)
-                .withAppiumJS(new File("C:\\Users\\moham\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
-                .usingDriverExecutable(new File("C:\\Program Files\\nodejs\\node.exe")));
+//        service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
+//                .usingPort(4723)
+//                .withAppiumJS(new File("C:\\Users\\moham\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
+//                .usingDriverExecutable(new File("C:\\Program Files\\nodejs\\node.exe")));
+        service = AppiumDriverLocalService.buildDefaultService();
         service.start();
         report.setUpReport();
     }
