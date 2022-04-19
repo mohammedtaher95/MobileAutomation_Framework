@@ -34,14 +34,18 @@ public class TestBase {
     public Report report;
 
     @BeforeSuite
-    public void startAppiumServer()
-    {
+    public void startAppiumServer() throws IOException {
+        File propFile = new File("src/main/resources/config.properties");
+
+        inputStream = new FileInputStream(propFile);
+        prop = new Properties();
+        prop.load(inputStream);
+
         report = new Report();
-//        service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
-//                .usingPort(4723)
-//                .withAppiumJS(new File("C:\\Users\\moham\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
-//                .usingDriverExecutable(new File("C:\\Program Files\\nodejs\\node.exe")));
-        service = AppiumDriverLocalService.buildDefaultService();
+        service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
+                .usingPort(4723)
+                .withAppiumJS(new File(prop.getProperty("appiumJSFile")))
+                .usingDriverExecutable(new File(prop.getProperty("nodePath"))));
         service.start();
         report.setUpReport();
     }
@@ -50,12 +54,6 @@ public class TestBase {
     @Parameters({"deviceName", "platformName","platformVersion"})
     @BeforeClass
     public void startDriver(@Optional("Pixel 3") String deviceName, @Optional("Android") String platformName, @Optional("12") String platformVersion) throws IOException {
-
-        File propFile = new File("src/main/resources/config.properties");
-
-        inputStream = new FileInputStream(propFile);
-        prop = new Properties();
-        prop.load(inputStream);
 
         File androidApp = new File(prop.getProperty("androidAppPath"));
 
