@@ -23,9 +23,9 @@ node {
     stage('Run Tests') {
             // Run the maven build
                 if (isUnix()) {
-                    sh 'mvn test'
+                    sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package -X'
                 } else {
-                    bat("mvn test")
+                    bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package -X/)
                 }
         }
 
