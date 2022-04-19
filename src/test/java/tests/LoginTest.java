@@ -1,6 +1,7 @@
 package tests;
 
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 
@@ -13,5 +14,6 @@ public class LoginTest extends TestBase {
     {
         loginObject = new LoginPage(driver);
         loginObject.userLogin("hatem@gmail.com", "Test123");
+        Assert.fail("Test Fail");
     }
 }

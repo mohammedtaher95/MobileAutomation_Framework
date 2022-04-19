@@ -9,6 +9,7 @@ node {
         mvnHome = tool 'MAVEN_HOME'
     }
 
+
     stage('Clean Old Builds') {
             // Run the maven build
             withEnv(["MVN_HOME=$mvnHome"]) {
@@ -23,9 +24,9 @@ node {
         // Run the maven build
         withEnv(["MVN_HOME=$mvnHome"]) {
             if (isUnix()) {
-                sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package -X'
+                sh '"$MVN_HOME/bin/mvn" test'
             } else {
-                bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package -X/)
+                bat(/"%MVN_HOME%\bin\mvn" test/)
             }
         }
     }
