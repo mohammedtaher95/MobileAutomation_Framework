@@ -21,15 +21,15 @@ node {
             }
         }
     stage('Run Tests') {
-        // Run the maven build
-        withEnv(["MVN_HOME=$mvnHome"]) {
-            if (isUnix()) {
-                sh '"$MVN_HOME/bin/mvn" test'
-            } else {
-                bat(/"%MVN_HOME%\bin\mvn" test/)
+            // Run the maven build
+            withEnv(["MVN_HOME=$mvnHome"]) {
+                if (isUnix()) {
+                    sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package -X'
+                } else {
+                    bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package -X/)
+                }
             }
         }
-    }
 
     stage('Results') {
         // testng '**/target/surefire-reports/TEST-*.xml'
