@@ -7,6 +7,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestResult;
@@ -36,7 +37,7 @@ public class TestBase {
     public void startAppiumServer()
     {
         report = new Report();
-        service = AppiumDriverLocalService.buildDefaultService();
+        service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder().usingPort(4723));
         service.start();
         report.setUpReport();
     }
